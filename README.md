@@ -3,7 +3,7 @@
 ## 📌 1. Thông Tin Chung
 
 - **Tên đề tài BTL:** Hệ thống quản lý & hỗ trợ dịch vụ khách sạn StayFlow
-- **Tên trang thực hiện:** Trang Tổng quan kỳ lưu trú (`index.html`)
+- **Tên trang thực hiện:** Trang Tổng quan kỳ lưu trú
 - **Đối tượng sử dụng:** Khách lưu trú tại khách sạn (Demo: Khách Thu Hà – Phòng 1208)
 - **Mục đích của trang:** Cung cấp bảng điều khiển trung tâm giúp khách hàng dễ dàng theo dõi thông tin phòng, xem trạng thái yêu cầu, gửi yêu cầu dịch vụ phòng tức thì và cập nhật các ưu đãi cá nhân hóa từ khách sạn.
 ---
