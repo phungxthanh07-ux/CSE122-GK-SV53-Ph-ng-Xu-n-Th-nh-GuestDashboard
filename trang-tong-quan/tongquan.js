@@ -75,32 +75,6 @@ searchInput.addEventListener('input', function () {
   noResults.style.display = shown === 0 ? 'block' : 'none';
 });
 
-// ===== Dropdown (thông báo, hồ sơ) =====
-const notificationButton = document.getElementById('notification-button');
-const notificationDropdown = document.getElementById('notification-dropdown');
-const profileButton = document.getElementById('profile-button');
-const profileDropdown = document.getElementById('profile-dropdown');
-
-notificationButton.addEventListener('click', function () {
-  profileDropdown.classList.remove('open');
-  notificationDropdown.classList.toggle('open');
-});
-
-profileButton.addEventListener('click', function () {
-  notificationDropdown.classList.remove('open');
-  profileDropdown.classList.toggle('open');
-});
-
-document.addEventListener('click', function (event) {
-  const inDropdown =
-    notificationDropdown.contains(event.target) ||
-    profileDropdown.contains(event.target);
-  if (!inDropdown) {
-    notificationDropdown.classList.remove('open');
-    profileDropdown.classList.remove('open');
-  }
-});
-
 // ===== Menu điện thoại (mở/đóng sidebar) =====
 const menuButton = document.getElementById('menu-button');
 const sidebar = document.getElementById('sidebar');
