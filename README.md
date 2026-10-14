@@ -26,4 +26,4 @@
 - **JavaScript (ES6+):** DOM Manipulation, Event Listeners (`click`, `input`, `submit`), Form Validation, Array Methods (`forEach`), Functions.
 
 - Link Figma: https://www.figma.com/design/2Y7fixci9RKHhFqgGd0FQz/Untitled?node-id=0-1&p=f&t=6iPvsSw6F2XoRq9i-0
-- Link video: 
+- Link video: https://youtu.be/a1pflX5iJ_I
