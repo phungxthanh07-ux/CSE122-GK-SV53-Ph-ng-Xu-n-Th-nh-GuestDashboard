@@ -1,4 +1,5 @@
 :root {
+  /* Biến CSS toàn cục: bảng màu & giá trị dùng lại khắp stylesheet */
   --navy: #101d33;
   --navy-soft: #1c2c46;
   --gold: #b8914a;
@@ -12,7 +13,7 @@
 }
 
 * {
-  box-sizing: border-box;
+  box-sizing: border-box; /* padding/border tính trong chiều rộng phần tử */
 }
 
 body {
@@ -26,7 +27,7 @@ button,
 input,
 select,
 textarea {
-  font: inherit;
+  font: inherit; /* kế thừa font của body để đồng bộ typography */
 }
 
 button {
@@ -39,11 +40,12 @@ a {
 }
 
 img {
-  display: block;
+  display: block; /* bỏ khoảng trắng chân dòng dưới ảnh */
 }
 
+/* ===== LAYOUT CHUNG ===== */
 .dashboard-shell {
-  display: flex;
+  display: flex;         /* sidebar + workspace đặt cạnh nhau */
   min-height: 100vh;
 }
 
@@ -51,7 +53,7 @@ img {
   background: var(--navy);
   color: #fff;
   display: flex;
-  flex: 0 0 232px;
+  flex: 0 0 232px;       /* chiều rộng cố định 232px, không co giãn */
   flex-direction: column;
   gap: 28px;
   padding: 24px 16px 20px;
@@ -98,6 +100,7 @@ img {
   font-size: 14px;
 }
 
+/* ===== ĐIỀU HƯỚNG SIDEBAR ===== */
 .nav-list {
   display: flex;
   flex-direction: column;
@@ -125,6 +128,7 @@ img {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Mục đang được chọn: nền vàng + chữ đậm */
 .nav-item.active {
   background: var(--gold);
   color: var(--navy);
@@ -161,9 +165,10 @@ img {
   font-weight: 700;
 }
 
+/* ===== VÙNG LÀM VIỆC & TOPBAR ===== */
 .workspace {
-  flex: 1;
-  min-width: 0;
+  flex: 1;       /* chiếm hết phần còn lại sau sidebar */
+  min-width: 0;  /* cho phép co lại, tránh tràn trong flex */
 }
 
 .topbar {
@@ -286,15 +291,16 @@ img {
   font-size: 11px;
 }
 
+/* ===== DROPDOWN (thông báo / hồ sơ) ===== */
 .dropdown-wrap {
-  position: relative;
+  position: relative;   /* làm mốc để dropdown định vị tuyệt đối bên dưới */
 }
 
 .dropdown {
   background: var(--paper);
   border: 1px solid var(--border);
   border-radius: 14px;
-  display: none;
+  display: none;        /* ẩn mặc định, JS hiện khi bấm nút */
   padding: 10px;
   position: absolute;
   right: 0;
@@ -302,6 +308,7 @@ img {
   z-index: 50;
 }
 
+/* ===== NÚT HAMBURGER (chỉ hiện trên mobile) ===== */
 .menu-button {
   background: transparent;
   border: 0;
@@ -318,6 +325,7 @@ img {
   width: 20px;
 }
 
+/* ===== NỘI DUNG CHÍNH ===== */
 .content {
   display: flex;
   flex-direction: column;
@@ -380,6 +388,7 @@ img {
   width: 16px;
 }
 
+/* ===== THẺ (card) & KHỐI TỔNG QUAN KỲ LƯU TRÚ ===== */
 .card {
   background: var(--paper);
   border: 1px solid var(--border);
@@ -399,7 +408,7 @@ img {
 .stay-overview {
   display: grid;
   gap: 18px;
-  grid-template-columns: minmax(400px, 500px) 1fr;
+  grid-template-columns: minmax(400px, 500px) 1fr; /* thẻ phòng + cột chỉ số */
 }
 
 .room-card {
@@ -430,6 +439,7 @@ img {
   margin: 0;
 }
 
+/* Nhãn trạng thái dạng viên thuốc: Đã dọn phòng / Đang xử lý / ... */
 .status {
   align-items: center;
   border-radius: 999px;
@@ -484,6 +494,7 @@ img {
   font-size: 14px;
 }
 
+/* Thanh tiến trình lưu trú; <span> bên trong thể hiện % đã qua */
 .stay-progress {
   background: #efe8da;
   border-radius: 99px;
@@ -496,7 +507,7 @@ img {
   border-radius: 99px;
   display: block;
   height: 100%;
-  width: 68%;
+  width: 68%;   /* đã qua 68% kỳ lưu trú (đổi để khớp dữ liệu) */
 }
 
 .card-note {
@@ -505,6 +516,7 @@ img {
   margin: 0;
 }
 
+/* ===== LƯỚI CHỈ SỐ NHANH ===== */
 .metric-grid {
   display: grid;
   gap: 18px;
@@ -570,10 +582,11 @@ img {
   color: var(--green);
 }
 
+/* ===== LƯỚI DỊCH VỤ NHANH (do JS render) ===== */
 .service-grid {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr); /* 4 cột trên desktop */
 }
 
 .service-card {
@@ -637,10 +650,11 @@ img {
   text-decoration: underline;
 }
 
+/* ===== HÀNG DƯỚI: yêu cầu gần nhất + ưu đãi ===== */
 .bottom-grid {
   display: grid;
   gap: 18px;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 1fr 420px; /* thẻ yêu cầu + thẻ ưu đãi 420px */
 }
 
 .request-card {
@@ -663,10 +677,11 @@ img {
   margin: 0;
 }
 
+/* ===== DÒNG THỜI GIAN TRẠNG THÁI YÊU CẦU ===== */
 .request-timeline {
   display: grid;
   gap: 8px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr); /* 4 bước: gửi -> tiếp nhận -> làm -> xong */
 }
 
 .timeline-step {
@@ -705,6 +720,7 @@ img {
   opacity: 0;
 }
 
+/* Bước đã hoàn thành hoặc đang thực hiện -> chấm màu xanh */
 .timeline-step.done span,
 .timeline-step.active span {
   background: var(--green);
@@ -794,14 +810,16 @@ img {
   text-align: center;
 }
 
+/* JS thêm class này khi thẻ không khớp từ khoá -> ẩn khỏi dashboard */
 .searchable.is-filtered {
   display: none;
 }
 
+/* ===== MODAL (nền phủ toàn màn hình) ===== */
 .modal-backdrop {
   align-items: center;
-  background: rgba(7, 15, 28, 0.46);
-  display: none;
+  background: rgba(7, 15, 28, 0.46); /* lớp nền tối mờ */
+  display: none;                     /* ẩn, JS thêm .open để hiện */
   inset: 0;
   justify-content: center;
   position: fixed;
@@ -905,13 +923,14 @@ img {
   width: 100%;
 }
 
+/* ===== TOAST thông báo (góc phải dưới) ===== */
 .toast {
   align-items: center;
   background: var(--navy);
   border-radius: 12px;
   bottom: 24px;
   color: #fff;
-  display: none;
+  display: none;      /* ẩn, JS thêm .show để hiện */
   gap: 10px;
   padding: 13px 18px;
   position: fixed;
@@ -940,6 +959,8 @@ img {
   margin: 0;
 }
 
+/* ===== RESPONSIVE (RWD) ===== */
+/* Tablet: giảm còn 1 cột hàng dưới, lưới dịch vụ 2 cột */
 @media (max-width: 1100px) {
   .bottom-grid {
     grid-template-columns: 1fr;
@@ -950,6 +971,7 @@ img {
   }
 }
 
+/* Mobile lớn: sidebar chuyển thành menu trượt, hiện nút hamburger */
 @media (max-width: 860px) {
   .sidebar {
     bottom: 0;
@@ -982,6 +1004,7 @@ img {
   }
 }
 
+/* Mobile nhỏ: ẩn bớt chi tiết topbar, xếp mọi lưới về 1 cột */
 @media (max-width: 620px) {
   .topbar {
     height: 64px;

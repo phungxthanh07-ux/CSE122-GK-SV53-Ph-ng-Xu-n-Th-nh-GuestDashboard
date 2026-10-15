@@ -1,4 +1,7 @@
 // ===== Dữ liệu dịch vụ nhanh =====
+// Mảng đối tượng mô tả 4 thẻ dịch vụ nhanh trên dashboard.
+// Mỗi phần tử có: title (tên hiển thị), desc (mô tả phụ),
+// icon (đường dẫn SVG), search (chuỗi khoá phục vụ tìm kiếm).
 const services = [
   {
     title: 'Gọi dọn phòng',
@@ -26,6 +29,7 @@ const services = [
   }
 ];
 
+// Lấy tham chiếu DOM tới lưới dịch vụ và dòng "không tìm thấy kết quả"
 const serviceGrid = document.getElementById('service-grid');
 const noResults = document.getElementById('no-results');
 
@@ -42,6 +46,7 @@ function matchesKey(key, term) {
 // Render danh sách dịch vụ bằng vòng lặp + innerHTML
 function renderServices(list) {
   let html = '';
+  // Duyệt từng dịch vụ, ghép chuỗi HTML của thẻ card
   list.forEach(function (svc) {
     html +=
       '<article class="card service-card searchable" data-search="' + svc.search + '">' +
@@ -51,31 +56,36 @@ function renderServices(list) {
       '  <button class="service-buy" type="button" data-service="' + svc.title + '">Bắt đầu <img src="./assets/c781d.svg" alt="" /></button>' +
       '</article>';
   });
-  serviceGrid.innerHTML = html;
-  noResults.style.display = 'none';
+  serviceGrid.innerHTML = html;         // chèn toàn bộ card vào lưới
+  noResults.style.display = 'none';      // ẩn thông báo "không có kết quả"
 }
 
-renderServices(services);
+renderServices(services);  // Vẽ dịch vụ ngay khi tải trang
 
 // ===== Tìm kiếm card =====
+// Ô tìm kiếm ở topbar sẽ lọc realtime mọi thẻ có class .searchable
 const searchInput = document.getElementById('dashboard-search');
 
+// Lắng nghe sự kiện gõ phím (input) để lọc ngay khi người dùng nhập
 searchInput.addEventListener('input', function () {
-  const term = searchInput.value.toLowerCase().trim();
-  const searchables = document.querySelectorAll('.searchable');
-  let shown = 0;
+  const term = searchInput.value.toLowerCase().trim();   // chuẩn hoá từ khoá
+  const searchables = document.querySelectorAll('.searchable'); // mọi thẻ có thể lọc
+  let shown = 0; // đếm số thẻ đang hiển thị
 
   searchables.forEach(function (card) {
+    // Đọc khoá tìm kiếm từ thuộc tính data-search (lowercase)
     const key = (card.getAttribute('data-search') || '').toLowerCase();
-    const match = matchesKey(key, term);
-    card.classList.toggle('is-filtered', !match);
-    if (match) shown++;
+    const match = matchesKey(key, term); // thẻ này có khớp từ khoá không?
+    card.classList.toggle('is-filtered', !match); // không khớp -> ẩn (thêm class)
+    if (match) shown++; // khớp -> tăng bộ đếm
   });
 
+  // Không còn thẻ nào hiển thị -> hiện dòng "không tìm thấy"
   noResults.style.display = shown === 0 ? 'block' : 'none';
 });
 
 // ===== Menu điện thoại (mở/đóng sidebar) =====
+// Nút hamburger chỉ hiện trên mobile; toggle class .open cho sidebar
 const menuButton = document.getElementById('menu-button');
 const sidebar = document.getElementById('sidebar');
 
@@ -84,21 +94,23 @@ menuButton.addEventListener('click', function () {
 });
 
 // ===== Thanh điều hướng sidebar =====
+// Gán active cho item được bấm và cập nhật tiêu đề trang
 const navItems = document.querySelectorAll('.nav-item');
 const pageTitle = document.getElementById('page-title');
 
 navItems.forEach(function (item) {
   item.addEventListener('click', function () {
     navItems.forEach(function (i) {
-      i.classList.remove('active');
+      i.classList.remove('active'); // xoá active khỏi mọi item
     });
-    item.classList.add('active');
-    pageTitle.textContent = item.getAttribute('data-section');
-    sidebar.classList.remove('open');
+    item.classList.add('active'); // đặt active cho item vừa bấm
+    pageTitle.textContent = item.getAttribute('data-section'); // đổi tiêu đề
+    sidebar.classList.remove('open'); // đóng lại trên mobile sau khi chọn
   });
 });
 
 // ===== Modal yêu cầu dịch vụ =====
+// Lấy tham chiếu các phần tử liên quan tới popup gửi yêu cầu
 const modal = document.getElementById('request-modal');
 const modalClose = modal.querySelector('.modal__close');
 const requestForm = document.getElementById('request-form');
@@ -107,12 +119,14 @@ const requestNote = document.getElementById('request-note');
 const formError = document.getElementById('form-error');
 const processingCount = document.getElementById('processing-count');
 
+// Mở modal: ẩn lỗi, thêm class .open, focus vào ô chọn dịch vụ
 function openModal() {
   formError.classList.remove('show');
   modal.classList.add('open');
   serviceSelect.focus();
 }
 
+// Đóng modal: gỡ class .open
 function closeModal() {
   modal.classList.remove('open');
 }
@@ -122,27 +136,31 @@ document.querySelector('.open-request').addEventListener('click', openModal);
 document.getElementById('explore-offer').addEventListener('click', openModal);
 
 modalClose.addEventListener('click', closeModal);
+// Bấm ra vùng nền tối (backdrop) cũng đóng modal
 modal.addEventListener('click', function (event) {
   if (event.target === modal) closeModal();
 });
 
 // Chọn dịch vụ từ card service cũng mở modal
 serviceGrid.addEventListener('click', function (event) {
+  // event delegation: bắt mọi cú click trong lưới dịch vụ
   const button = event.target.closest('.service-buy');
-  if (!button) return;
-  serviceSelect.value = button.getAttribute('data-service');
+  if (!button) return; // không bấm vào nút "Bắt đầu" thì bỏ qua
+  serviceSelect.value = button.getAttribute('data-service'); // pre-chọn dịch vụ
   openModal();
 });
 
 // ===== Form validation + gửi yêu cầu =====
+// Tham chiếu UI sẽ được cập nhật sau khi gửi thành công
 const latestTitle = document.getElementById('latest-request-title');
 const requestDescription = document.getElementById('request-description');
 const toast = document.getElementById('toast');
 const toastMessage = document.getElementById('toast-message');
-let toastTimer = null;
+let toastTimer = null; // lưu id của timer để huỷ nếu toast bắn lại liên tiếp
 
+// Hiển thị thông báo toast tự ẩn sau 3.2 giây
 function showToast(message) {
-  if (toastTimer) clearTimeout(toastTimer);
+  if (toastTimer) clearTimeout(toastTimer); // huỷ hẹn giờ cũ nếu có
   toastMessage.textContent = message;
   toast.classList.add('show');
   toastTimer = setTimeout(function () {
@@ -150,33 +168,35 @@ function showToast(message) {
   }, 3200);
 }
 
+// Xử lý khi submit form yêu cầu
 requestForm.addEventListener('submit', function (event) {
   event.preventDefault(); // chặn việc tải lại trang
 
-  const service = serviceSelect.value;
-  const note = requestNote.value.trim();
+  const service = serviceSelect.value;   // loại dịch vụ đã chọn
+  const note = requestNote.value.trim(); // ghi chú người dùng nhập
 
-  // Xác thực dữ liệu trước khi xử lý
+  // Xác thực dữ liệu trước khi xử lý: bắt buộc chọn loại dịch vụ
   if (service === '') {
-    formError.classList.add('show');
+    formError.classList.add('show'); // hiện dòng lỗi
     serviceSelect.focus();
-    return;
+    return;                          // dừng, không gửi
   }
   formError.classList.remove('show');
 
-  // Cập nhật UI theo dữ liệu vừa nhập
+  // Cập nhật UI theo dữ liệu vừa nhập: tăng chỉ số "Đang xử lý" (+1)
   const count = parseInt(processingCount.textContent, 10) + 1;
   processingCount.textContent = formatCount(count);
 
+  // Đồng bộ thẻ "yêu cầu gần nhất" với dịch vụ vừa gửi
   latestTitle.textContent = service;
   requestDescription.textContent =
     note !== ''
       ? note
       : 'Đã gửi yêu cầu ' + service.toLowerCase() + ' cho đội ngũ vận hành.';
 
-  closeModal();
-  showToast('Yêu cầu "' + service + '" đã được gửi thành công.');
-  requestForm.reset();
+  closeModal();  // đóng popup
+  showToast('Yêu cầu "' + service + '" đã được gửi thành công.'); // báo result
+  requestForm.reset(); // xoá trắng form để lần gửi sau
 });
 
 // ===== Nút xem chi tiết yêu cầu =====

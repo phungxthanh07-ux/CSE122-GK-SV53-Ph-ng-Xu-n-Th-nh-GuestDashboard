@@ -11,18 +11,22 @@
     <link rel="stylesheet" href="tongquan.css" />
   </head>
   <body>
+    <!-- Khung tổng thể: sidebar bên trái + vùng làm việc bên phải -->
     <div class="dashboard-shell">
+      <!-- ===== SIDEBAR: logo, thông tin khách, điều hướng ===== -->
       <aside class="sidebar" id="sidebar">
         <div class="brand">
           <span class="brand__mark">S</span>
           <span>StayFlow</span>
         </div>
 
+        <!-- Thẻ hiển thị khách sạn & vai trò người dùng -->
         <div class="role-card">
           <small>AURORA GRAND · ĐÀ NẴNG</small>
           <strong>Khách lưu trú</strong>
         </div>
 
+        <!-- Menu điều hướng; data-section dùng để đổi tiêu đề trang -->
         <nav class="sidebar-nav" aria-label="Điều hướng chính">
           <ul class="nav-list">
             <li>
@@ -59,9 +63,12 @@
           <a href="tel:188">Máy lẻ 188</a>
         </div>
       </aside>
+      <!-- ===== WORKSPACE: topbar + nội dung chính ===== -->
       <div class="workspace">
+        <!-- Thanh tiêu đề trên cùng: nút menu, ô tìm kiếm, thông báo, hồ sơ -->
         <header class="topbar">
           <div class="topbar__left">
+            <!-- Nút hamburger (chỉ hiện trên mobile) để mở/đóng sidebar -->
             <button class="menu-button" id="menu-button" type="button" aria-label="Mở menu">
               <span></span><span></span><span></span>
             </button>
@@ -72,11 +79,13 @@
           </div>
 
           <div class="user-tools">
+            <!-- Ô tìm kiếm realtime: khớp với data-search của các thẻ -->
             <label class="search-box">
               <img src="./assets/70b7a.svg" alt="" />
               <input id="dashboard-search" type="search" placeholder="Tìm mã, phòng, khách..." />
             </label>
 
+            <!-- Dropdown thông báo -->
             <div class="dropdown-wrap">
               <button class="icon-button" id="notification-button" type="button" aria-label="Thông báo">
                 <img src="./assets/f92f1.svg" alt="" />
@@ -106,6 +115,7 @@
         </header>
 
         <main class="content">
+          <!-- ===== Khối chào + nút gửi yêu cầu nhanh ===== -->
           <section class="welcome">
             <div>
               <span class="eyebrow">XIN CHÀO, THU HÀ</span>
@@ -117,7 +127,9 @@
             </button>
           </section>
 
+          <!-- ===== Tổng quan kỳ lưu trú: thẻ phòng + các chỉ số ===== -->
           <section class="stay-overview">
+            <!-- data-search giúp ô tìm kiếm lọc được thẻ này -->
             <article class="card room-card searchable" data-search="aurora grand ocean view phòng 1208">
               <div class="room-card__heading">
                 <div>
@@ -132,16 +144,19 @@
                 <div><small>NHẬN PHÒNG</small><strong>02 Thg 10 · 14:00</strong></div>
                 <div><small>TRẢ PHÒNG</small><strong>06 Thg 10 · 12:00</strong></div>
               </div>
+              <!-- Thanh tiến trình lưu trú (độ rộng % thể hiện số đêm đã qua) -->
               <div class="stay-progress"><span></span></div>
               <p class="card-note">Đêm 2/4 · Còn 2 đêm lưu trú</p>
             </article>
 
+            <!-- Lưới 2 chỉ số nhanh: Đang xử lý / Hoàn thành -->
             <div class="metric-grid">
               <article class="card metric-card searchable" data-search="đang xử lý yêu cầu">
                 <div>
                   <strong>Đang xử lý</strong>
                   <span class="metric-icon metric-icon--warning"><img src="./assets/2b8b2.svg" alt="" /></span>
                 </div>
+                <!-- id để JS tăng số này mỗi khi gửi yêu cầu mới -->
                 <b id="processing-count">02</b>
                 <p>1 yêu cầu sắp hoàn thành</p>
               </article>
@@ -156,7 +171,10 @@
             </div>
           </section>
 
+          <!-- Lưới dịch vụ nhanh: JS render nội dung vào đây (renderServices) -->
           <section class="service-grid" id="service-grid" aria-label="Dịch vụ nhanh"></section>
+
+          <!-- Hàng dưới: thẻ yêu cầu gần nhất + thẻ ưu đãi Spa -->
           <section class="bottom-grid">
             <article class="card request-card searchable" data-search="sf-3184 bổ sung khăn tắm đang xử lý">
               <div class="request-card__heading">
@@ -167,6 +185,7 @@
                 <span class="status status--warning"><img src="./assets/979b6.svg" alt="" />Đang xử lý</span>
               </div>
 
+              <!-- Dòng thời gian 4 bước của yêu cầu (done/active/chưa làm) -->
               <div class="request-timeline">
                 <div class="timeline-step done">
                   <div><span><img src="./assets/091ee.svg" alt="" /></span><i></i></div>
@@ -205,17 +224,20 @@
             </article>
           </section>
 
+          <!-- Hiện khi bộ lọc tìm kiếm không khớp thẻ nào -->
           <p class="no-results" id="no-results">Không tìm thấy nội dung phù hợp.</p>
         </main>
       </div>
     </div>
 
+    <!-- ===== MODAL: form gửi yêu cầu dịch vụ ===== -->
     <div class="modal-backdrop" id="request-modal">
       <div class="modal">
         <button class="modal__close" type="button" aria-label="Đóng">×</button>
         <span class="modal__eyebrow">DỊCH VỤ PHÒNG 1208</span>
         <h2 id="request-modal-title">Gửi yêu cầu mới</h2>
         <p>Đội ngũ Aurora Grand sẽ phản hồi trong thời gian sớm nhất.</p>
+        <!-- Form được JS bind sự kiện submit để validate + cập nhật UI -->
         <form id="request-form">
           <label>
             Loại dịch vụ
@@ -231,6 +253,7 @@
             Ghi chú
             <textarea id="request-note" rows="4" placeholder="Mô tả yêu cầu của bạn..."></textarea>
           </label>
+          <!-- Dòng lỗi ẩn/hiện bằng class .show khi validate fail -->
           <p class="form-error" id="form-error">Vui lòng chọn loại dịch vụ.</p>
           <button class="primary-button modal__submit" type="submit">
             <span>Gửi yêu cầu</span>
@@ -239,8 +262,10 @@
       </div>
     </div>
 
+    <!-- Toast thông báo kết quả, JS hiện/ẩn bằng class .show -->
     <div class="toast" id="toast"><span>✓</span><p id="toast-message"></p></div>
 
+    <!-- Nối script xử lý toàn bộ tương tác của trang -->
     <script src="tongquan.js"></script>
   </body>
 </html>
