@@ -1,4 +1,3 @@
-// ===== Dữ liệu dịch vụ nhanh =====
 // Mảng đối tượng mô tả 4 thẻ dịch vụ nhanh trên dashboard.
 // Mỗi phần tử có: title (tên hiển thị), desc (mô tả phụ),
 // icon (đường dẫn SVG), search (chuỗi khoá phục vụ tìm kiếm).
@@ -62,7 +61,7 @@ function renderServices(list) {
 
 renderServices(services);  // Vẽ dịch vụ ngay khi tải trang
 
-// ===== Tìm kiếm card =====
+// Tìm kiếm card
 // Ô tìm kiếm ở topbar sẽ lọc realtime mọi thẻ có class .searchable
 const searchInput = document.getElementById('dashboard-search');
 
@@ -84,7 +83,7 @@ searchInput.addEventListener('input', function () {
   noResults.style.display = shown === 0 ? 'block' : 'none';
 });
 
-// ===== Menu điện thoại (mở/đóng sidebar) =====
+// Menu điện thoại (mở/đóng sidebar)
 // Nút hamburger chỉ hiện trên mobile; toggle class .open cho sidebar
 const menuButton = document.getElementById('menu-button');
 const sidebar = document.getElementById('sidebar');
@@ -93,7 +92,7 @@ menuButton.addEventListener('click', function () {
   sidebar.classList.toggle('open');
 });
 
-// ===== Thanh điều hướng sidebar =====
+// Thanh điều hướng sidebar
 // Gán active cho item được bấm và cập nhật tiêu đề trang
 const navItems = document.querySelectorAll('.nav-item');
 const pageTitle = document.getElementById('page-title');
@@ -109,7 +108,7 @@ navItems.forEach(function (item) {
   });
 });
 
-// ===== Modal yêu cầu dịch vụ =====
+// Yêu cầu dịch vụ
 // Lấy tham chiếu các phần tử liên quan tới popup gửi yêu cầu
 const modal = document.getElementById('request-modal');
 const modalClose = modal.querySelector('.modal__close');
@@ -150,7 +149,7 @@ serviceGrid.addEventListener('click', function (event) {
   openModal();
 });
 
-// ===== Form validation + gửi yêu cầu =====
+// Validation + gửi yêu cầu
 // Tham chiếu UI sẽ được cập nhật sau khi gửi thành công
 const latestTitle = document.getElementById('latest-request-title');
 const requestDescription = document.getElementById('request-description');
@@ -199,12 +198,12 @@ requestForm.addEventListener('submit', function (event) {
   requestForm.reset(); // xoá trắng form để lần gửi sau
 });
 
-// ===== Nút xem chi tiết yêu cầu =====
+// Nút xem chi tiết yêu cầu
 document.getElementById('view-request').addEventListener('click', function () {
   showToast('Chi tiết yêu cầu #SF-3184 đang được mở.');
 });
 
-// ===== Kiểm tra nhanh: mở trang kèm ?selftest để xem PASS/FAIL trên Console =====
+// Kiểm tra nhanh: mở trang kèm ?selftest để xem PASS/FAIL trên Console
 if (window.location.search.indexOf('selftest') !== -1) {
   const check = function (label, ok) {
     console.log((ok ? 'PASS' : 'FAIL') + ' · ' + label);
